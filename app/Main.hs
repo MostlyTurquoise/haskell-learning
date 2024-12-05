@@ -1,4 +1,5 @@
 module Main where
+import Data.Char
 
 binSearch :: [Int] -> Int -> Int
 binSearch list target = 
@@ -52,6 +53,28 @@ sieveOfErastothenes (v:li) | v == 1 = v : sieveOfErastothenes li
 
 primesUpTo :: Int -> [Int]
 primesUpTo n = sieveOfErastothenes [2..n]
+
+caesarCipher :: [Char] -> Int -> [Char]
+caesarCipher [] _ = []
+caesarCipher (c:st) v
+    | ord (toUpper c) - ord 'A' >= 0 && ord (toUpper c) - ord 'A' < 26 = chr (((ord (toUpper c) - ord 'A' + v) `mod` 26) + ord 'A') : caesarCipher st v
+    | otherwise = c : caesarCipher st v
+
+caesarCipherL :: [Char] -> Int -> [Char]
+caesarCipherL st v = [chr (((ord (toUpper x) - ord 'A' + v) `mod` 26) + ord 'A') | x <- st]
+
+lsum :: Num a => [a] -> a
+lsum [] = 0;
+lsum (f:l) = f + lsum l
+
+isPalindrome :: [Char] -> [Char] -> Bool
+isPalindrome [] _ = False
+isPalindrome (i:str) ot | length str + 1 == length ot = (i:str) == ot
+                        | length str == length ot = str == ot
+                        | otherwise = isPalindrome str (i:ot)
+
+
+
 
 main :: IO ()
 main = print (primesUpTo 20)
